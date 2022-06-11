@@ -1,0 +1,69 @@
+@use '../utils/' as u;
+
+.row{
+    display: flex;
+    flex-flow: column;
+
+    @include u.breakpoint(large) {
+       grid-column-end: 2;
+
+       &.lastname {
+        grid-column-start: 2;
+       }
+    }
+}
+
+input,select {   
+    padding: .5em; 
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: var(--background-color);
+
+    @include u.breakpoint(large) {
+        width: 85%;
+     }
+}
+
+label {
+    padding: .5em 0;
+}
+
+.btngroup {
+    flex-flow: row;
+    justify-content: space-between;
+    width: 280px;
+
+   
+    
+}
+
+//remove default arrow
+select {
+    width: 100%;
+    /* for Firefox */
+    -moz-appearance: none;
+    /* for Chrome */
+    -webkit-appearance: none;
+  }
+  
+  /* For IE10 */
+  select::-ms-expand {
+    display: none;
+  }
+  .select-wrapper {
+    position: relative;
+
+    @include u.breakpoint(large) {
+        width: 85%;
+     }
+  }
+  .select-wrapper::before {
+    pointer-events: none;
+    content: "→";
+    font-size: 2rem;
+    position: absolute;
+    right: .5em;
+    bottom: .25em;
+    transform: rotate(90deg);
+
+  }

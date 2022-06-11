@@ -1,0 +1,36 @@
+@use '../utils/' as u;
+
+h1{
+    line-height: 1.1;
+    font-size: 3.5rem;
+    font-weight: 400;
+
+  @include u.breakpoint(medium) {
+    font-size: 4.5rem;
+  }
+  @include u.breakpoint(large) {
+    font-size: 5.5rem;
+  }
+}
+p{
+    margin-top: 0;
+    font-size: 1.6rem;
+    line-height: 1.5;
+
+    @include u.breakpoint(large) {
+        font-size: 2rem;
+      }
+}
+label {
+    font-size: 1.7rem;
+    @include u.breakpoint(large) {
+        font-size: 2rem;
+      }
+}
+input,select {
+    font-size: 1.5rem;
+}
+
+.btn {
+    font-size: 1rem;
+}
