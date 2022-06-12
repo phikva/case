@@ -1,16 +1,38 @@
 import { useFormik } from "formik";
+import { validation } from "../schemas";
+
+const onSubmit = async (values, actions) => {
+  console.log(values);
+  console.log(actions);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  actions.resetForm();
+};
 
 const Form = () => {
-  const { values, handleBlur, handleChange } = useFormik({
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormik({
     initialValues: {
-      registreringsnummer: "",
+      registreringsNummer: "",
       bonus: "",
-      fødselsnummer: "",
+      fødselsNummer: "",
       fornavn: "",
       etternavn: "",
       epost: "",
     },
+    validationSchema: validation,
+    onSubmit,
   });
+
+  console.log(errors);
+
   return (
     <section className="container">
       <div className="top-text">
@@ -23,19 +45,28 @@ const Form = () => {
         </p>
       </div>
 
-      <form className="grid">
+      <form noValidate onSubmit={handleSubmit} className="grid">
         <div className="row">
-          <label htmlFor="registreringsnummer">
+          <label htmlFor="registreringsNummer">
             Bilens registreringsnummer
           </label>
           <input
-            value={values.registreringsnummer}
+            value={values.registreringsNummer}
             onChange={handleChange}
-            id="registreringsnummer"
+            id="registreringsNummer"
             type="text"
             placeholder="E.g AB 12345"
             onBlur={handleBlur}
+            className={
+              errors.registreringsNummer && touched.registreringsNummer
+                ? "input-error"
+                : ""
+            }
           />
+
+          {errors.registreringsNummer && touched.registreringsNummer && (
+            <p className="error-message">{errors.registreringsNummer}</p>
+          )}
         </div>
 
         <div className="row">
@@ -47,31 +78,48 @@ const Form = () => {
               id="bonus"
               type="select"
               onBlur={handleBlur}
+              className={errors.bonus && touched.bonus ? "input-error" : ""}
             >
               <option value="" hidden>
                 Velg bonus
               </option>
-              <option value="20">20%</option>
-              <option value="30">30%</option>
-              <option value="40">40%</option>
-              <option value="50">50%</option>
-              <option value="60">60%</option>
-              <option value="70">70%</option>
-              <option value="80">80%</option>
+              <option label="20%" value="20%" />
+              <option label="30%" value="30%" />
+              <option label="40%" value="40%" />
+              <option label="50%" value="50%" />
+              <option label="60%" value="60%" />
+              <option label="70%" value="70%" />
+              <option label="80%" value="80%" />
             </select>
           </div>
+          {errors.bonus && touched.bonus ? (
+            ""
+          ) : (
+            <p className="help-text">
+              Startbonus på 20% når du kjøper forsikring
+            </p>
+          )}
+          {errors.bonus && touched.bonus && (
+            <p className="error-message">{errors.bonus}</p>
+          )}
         </div>
 
         <div className="row">
-          <label htmlFor="fødselsnummer">Fødselsnummer</label>
+          <label htmlFor="fødselsNummer">Fødselsnummer</label>
           <input
-            value={values.fødselsnummer}
+            value={values.fødselsNummer}
             onChange={handleChange}
-            id="fødselsnummer"
+            id="fødselsNummer"
             type="number"
             placeholder="11 siffer"
             onBlur={handleBlur}
+            className={
+              errors.fødselsNummer && touched.fødselsNummer ? "input-error" : ""
+            }
           />
+          {errors.fødselsNummer && touched.fødselsNummer && (
+            <p className="error-message">{errors.fødselsNummer}</p>
+          )}
         </div>
 
         <div className="row">
@@ -83,7 +131,11 @@ const Form = () => {
             type="text"
             placeholder=""
             onBlur={handleBlur}
+            className={errors.fornavn && touched.fornavn ? "input-error" : ""}
           />
+          {errors.fornavn && touched.fornavn && (
+            <p className="error-message">{errors.fornavn}</p>
+          )}
         </div>
 
         <div className="row lastname">
@@ -95,7 +147,13 @@ const Form = () => {
             type="text"
             placeholder=""
             onBlur={handleBlur}
+            className={
+              errors.etternavn && touched.etternavn ? "input-error" : ""
+            }
           />
+          {errors.etternavn && touched.etternavn && (
+            <p className="error-message">{errors.etternavn}</p>
+          )}
         </div>
         <div className="row">
           <label htmlFor="epost">E-post</label>
@@ -106,13 +164,23 @@ const Form = () => {
             type="email"
             placeholder=""
             onBlur={handleBlur}
+            className={errors.epost && touched.epost ? "input-error" : ""}
           />
+          {errors.epost && touched.epost && (
+            <p className="error-message">{errors.epost}</p>
+          )}
         </div>
+
         <div className="row btngroup">
-          <button className="btn primary" type="submit">
-            Beregn pris
+          <button disabled={isSubmitting} className="btn primary" type="submit">
+            {isSubmitting ? "Beregner pris" : "Beregn pris"}
           </button>
-          <button className="btn secondary" type="button" value="Avbryt">
+          <button
+            type="reset"
+            onClick={resetForm}
+            className="btn secondary"
+            value="Avbryt"
+          >
             Avbryt
           </button>
         </div>
