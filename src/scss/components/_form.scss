@@ -67,3 +67,20 @@ select {
     transform: rotate(90deg);
 
   }
+  :focus { outline: thin  dotted blue; }
+
+  //error
+  .input-error {
+    border-color: red;
+  }
+  .error-message {
+    padding-top: .5em;
+    margin: 0;
+    font-size: 1rem;
+    color: red;
+  }
+  .help-text {
+    padding-top: .5em;
+    margin: 0;
+    font-size: 1rem;
+  }
