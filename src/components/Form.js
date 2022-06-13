@@ -1,14 +1,37 @@
 import { useFormik } from "formik";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import { validation } from "../schemas";
 
-const onSubmit = async (values, actions) => {
-  console.log(values);
-  console.log(actions);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  actions.resetForm();
-};
-
 const Form = () => {
+  const [submitted, setSubmitted] = useState();
+  const [loading, setLoading] = useState();
+
+  const onSubmit = async (values, actions) => {
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    setLoading(false);
+    setSubmitted("submitted");
+
+    actions.resetForm();
+    // console.log(values);
+    // console.log(actions);
+  };
+
+  // const testRef = useRef(null);
+  // const scrollToElement = () => testRef.current.scrollIntoView({ behavior: "smooth" });
+
+  //scroll to content after load
+  const scroll = useCallback((node) => {
+    if (node !== null) {
+      window.scrollTo({
+        top: node.getBoundingClientRect().bottom,
+        behavior: "smooth",
+      });
+    }
+  }, []);
+
   const {
     values,
     errors,
@@ -30,8 +53,6 @@ const Form = () => {
     validationSchema: validation,
     onSubmit,
   });
-
-  console.log(errors);
 
   return (
     <section className="container">
@@ -172,7 +193,11 @@ const Form = () => {
         </div>
 
         <div className="row btngroup">
-          <button disabled={isSubmitting} className="btn primary" type="submit">
+          <button
+            disabled={isSubmitting}
+            className="btn primary"
+            type="submit"
+          >
             {isSubmitting ? "Beregner pris" : "Beregn pris"}
           </button>
           <button
@@ -185,6 +210,54 @@ const Form = () => {
           </button>
         </div>
       </form>
+
+      {loading ? (
+        <div className="loading lds-dual-ring">
+          {" "}
+          <span>Beregner pris..</span>
+        </div>
+      ) : (
+        ""
+      )}
+      {submitted ? (
+        <div className="price-container">
+          <h2>Vår anbefaling</h2>
+          <p>
+            Vi har laget en anbefaling basert på bilens alder, din bonus, og hva
+            vi vet om deg.
+          </p>
+          <ul className="grid gap">
+            <li className="card">
+              <h3>Ansvar</h3>
+              <div className="small-text">Lovpålagt</div>
+              <div>
+                <div className="regular-text price">308kr/mnd</div>
+                <div className="small-text-price">3472kr/år</div>
+              </div>
+            </li>
+            <li className="card">
+              <h3>Minikasko</h3>
+              <div className="small-text">Dekker brann/tyveri</div>
+              <div className="regular-text price">637kr/mnd</div>
+              <div className="small-text-price">7747kr/år</div>
+            </li>
+            <li ref={scroll} className="card recomended">
+              <h3>Kasko</h3>
+              <div className="small-text">Dekker det viktigste</div>
+              <div className="regular-text price">1085kr/mnd</div>
+              <div className="small-text-price">13204kr/år</div>
+            </li>
+            <li className="card">
+              <h3>Topkasko</h3>
+              <div className="small-text">Vår beste forsikring</div>
+              <div className="regular-text price">1133kr/mnd</div>
+              <div className="small-text-price">13780kr/år</div>
+            </li>
+          </ul>
+        </div>
+      ) : (
+        ""
+      )}
     </section>
   );
 };
