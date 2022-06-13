@@ -1,21 +1,23 @@
 html {
-    box-sizing: border-box;
-    font-size: 100%;
+  box-sizing: border-box;
+  font-size: 100%;
 }
 
-*, 
-*::before, 
+*,
+*::before,
 *::after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
 
-body{
-    margin: 0;
-    padding: 0;
-    font-family: "Profilfont-regular";
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Profilfont-regular";
+  background-color: var(--background-color);
 }
-ul,li {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
