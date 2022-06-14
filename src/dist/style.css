@@ -14,18 +14,39 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Profilfont-regular";
+  background-color: var(--background-color);
 }
 
-ul, li {
+ul,
+li {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 @font-face {
   font-family: "Profilfont-Regular";
   src: url(../../fonts/Profilfont-Regular-Web.woff) format("woff");
 }
+:root {
+  --background-color: #ffff;
+  --modal-color: rgb(167, 167, 167);
+  --text-color: #0000;
+  --error-color: red;
+}
+
 h1 {
   line-height: 1.1;
   font-size: 3.5rem;
@@ -40,6 +61,18 @@ h1 {
   h1 {
     font-size: 5.5rem;
   }
+}
+
+h2 {
+  line-height: 1.1;
+  font-size: 2.5rem;
+  font-weight: 400;
+}
+
+h3 {
+  line-height: 1.1;
+  font-size: 2rem;
+  margin-bottom: 0;
 }
 
 p {
@@ -62,17 +95,13 @@ label {
   }
 }
 
-input, select {
+input,
+select {
   font-size: 1.5rem;
 }
 
 .btn {
   font-size: 1rem;
-}
-
-:root {
-  --background-color: #ffff;
-  --text-color: #0000;
 }
 
 .row {
@@ -88,14 +117,16 @@ input, select {
   }
 }
 
-input, select {
+input,
+select {
   padding: 0.5em;
   border: 1px solid black;
   border-radius: 4px;
   background-color: var(--background-color);
 }
 @media (min-width: 900px) {
-  input, select {
+  input,
+select {
     width: 85%;
   }
 }
@@ -108,6 +139,49 @@ label {
   flex-flow: row;
   justify-content: space-between;
   width: 280px;
+}
+
+.gap {
+  -moz-column-gap: 40px !important;
+       column-gap: 40px !important;
+}
+
+.price-container {
+  margin-top: 5em;
+}
+
+.top-text-price {
+  font-size: 1.4rem;
+  padding-bottom: 0.5em;
+}
+
+.card {
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+.card.recomended {
+  background-color: black;
+  color: var(--background-color);
+}
+.card.recomended::before {
+  content: "Anbefalt";
+  background-color: var(--background-color);
+  color: black;
+}
+.card .small-text {
+  font-size: 1.4rem;
+  opacity: 0.75;
+}
+.card .regular-text-price {
+  font-size: 1.4rem;
+}
+.card .small-text-price {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  font-size: 1.1rem;
 }
 
 select {
@@ -142,20 +216,137 @@ select::-ms-expand {
   transform: rotate(90deg);
 }
 
+:focus {
+  outline: thin dotted blue;
+}
+
+.input-error {
+  border-color: var(--error-color);
+  -webkit-animation: shake 0.2s ease-in-out 0s 2;
+          animation: shake 0.2s ease-in-out 0s 2;
+}
+
+@-webkit-keyframes shake {
+  0% {
+    margin-left: 0rem;
+  }
+  25% {
+    margin-left: 0.5rem;
+  }
+  75% {
+    margin-left: -0.5rem;
+  }
+  100% {
+    margin-left: 0rem;
+  }
+}
+
+@keyframes shake {
+  0% {
+    margin-left: 0rem;
+  }
+  25% {
+    margin-left: 0.5rem;
+  }
+  75% {
+    margin-left: -0.5rem;
+  }
+  100% {
+    margin-left: 0rem;
+  }
+}
+.error-message {
+  padding-top: 0.5em;
+  margin: 0;
+  font-size: 1rem;
+  color: var(--error-color);
+}
+
+.help-text {
+  padding-top: 0.5em;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.loading {
+  font-size: 2rem;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+.loading span {
+  display: block;
+  text-align: center;
+  position: relative;
+  top: 50%;
+}
+
+.lds-dual-ring {
+  display: block;
+  background-color: rgba(197, 197, 197, 0.699);
+}
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  top: 50%;
+  bottom: 50%;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: rgb(0, 0, 0) transparent rgb(0, 0, 0) transparent;
+  -webkit-animation: lds-dual-ring 1.2s linear infinite;
+          animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@-webkit-keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .btn {
   padding: 15px 30px;
   border-radius: 50px;
   border: 1px solid black;
+  transition: ease-in 250ms;
+}
+.btn:hover {
+  cursor: pointer;
 }
 
 .btn.primary {
   background-color: black;
   color: white;
 }
+.btn.primary:hover {
+  background-color: var(--background-color);
+  color: black;
+}
 
 .btn.secondary {
-  background-color: white;
+  background-color: var(--background-color);
   color: black;
+}
+.btn.secondary:hover {
+  background-color: black;
+  color: var(--background-color);
 }
 
 .grid {

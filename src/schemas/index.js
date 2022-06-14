@@ -6,11 +6,12 @@ export const validation = yup.object().shape({
     .required("Må fylles ut")
     .matches(/^[a-z]{2}[\d]{5}$/, "Må inneholde 2 bokstaver + 5 tall"),
 
-  bonus: yup.string().ensure().required("Velg 1 bonus"),
+  bonus: yup.number().required("Velg 1 bonus"),
 
   // nummber som starter på 0 blir ikke registrert
   fødselsNummer: yup
     .number()
+    .positive("Kan ikke være et negativt tall")
     .required("Må være kun tall")
     .test(
       "len",

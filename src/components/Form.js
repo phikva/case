@@ -1,26 +1,37 @@
 import { useFormik } from "formik";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { validation } from "../schemas";
 
 const Form = () => {
   const [submitted, setSubmitted] = useState();
   const [loading, setLoading] = useState();
+  const [result, setResult] = useState();
+  const [price, setPrice] = useState();
+  const [priceYear, setPriceYear] = useState();
 
   const onSubmit = async (values, actions) => {
     setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     setLoading(false);
     setSubmitted("submitted");
-
+    setResult([values]);
     actions.resetForm();
-    // console.log(values);
-    // console.log(actions);
-  };
 
-  // const testRef = useRef(null);
-  // const scrollToElement = () => testRef.current.scrollIntoView({ behavior: "smooth" });
+    function calcPrice() {
+      const basisPris = 3000;
+      let rabatt = values.bonus;
+      let rabbatertPris = (basisPris * rabatt) / 100;
+      let totalSum = basisPris - rabbatertPris;
+
+      let totalSumYear = totalSum * 12;
+
+      setPriceYear(totalSumYear.toLocaleString());
+      setPrice(totalSum.toLocaleString());
+    }
+    calcPrice();
+  };
 
   //scroll to content after load
   const scroll = useCallback((node) => {
@@ -104,13 +115,13 @@ const Form = () => {
               <option value="" hidden>
                 Velg bonus
               </option>
-              <option label="20%" value="20%" />
-              <option label="30%" value="30%" />
-              <option label="40%" value="40%" />
-              <option label="50%" value="50%" />
-              <option label="60%" value="60%" />
-              <option label="70%" value="70%" />
-              <option label="80%" value="80%" />
+              <option label="20%" value="20" />
+              <option label="30%" value="30" />
+              <option label="40%" value="40" />
+              <option label="50%" value="50" />
+              <option label="60%" value="60" />
+              <option label="70%" value="70" />
+              <option label="80%" value="80" />
             </select>
           </div>
           {errors.bonus && touched.bonus ? (
@@ -193,11 +204,7 @@ const Form = () => {
         </div>
 
         <div className="row btngroup">
-          <button
-            disabled={isSubmitting}
-            className="btn primary"
-            type="submit"
-          >
+          <button disabled={isSubmitting} className="btn primary" type="submit">
             {isSubmitting ? "Beregner pris" : "Beregn pris"}
           </button>
           <button
@@ -226,32 +233,35 @@ const Form = () => {
             Vi har laget en anbefaling basert på bilens alder, din bonus, og hva
             vi vet om deg.
           </p>
+          <div className="top-text-price">
+            Priser med din {result[0].bonus}% bonus:
+          </div>
           <ul className="grid gap">
             <li className="card">
               <h3>Ansvar</h3>
               <div className="small-text">Lovpålagt</div>
               <div>
-                <div className="regular-text price">308kr/mnd</div>
-                <div className="small-text-price">3472kr/år</div>
+                <div className="regular-text-price">{price}kr/mnd</div>
+                <div className="small-text-price">{priceYear}kr/år</div>
               </div>
             </li>
             <li className="card">
               <h3>Minikasko</h3>
               <div className="small-text">Dekker brann/tyveri</div>
-              <div className="regular-text price">637kr/mnd</div>
-              <div className="small-text-price">7747kr/år</div>
+              <div className="regular-text-price">{price}kr/mnd</div>
+              <div className="small-text-price">{priceYear}kr/år</div>
             </li>
             <li ref={scroll} className="card recomended">
               <h3>Kasko</h3>
               <div className="small-text">Dekker det viktigste</div>
-              <div className="regular-text price">1085kr/mnd</div>
-              <div className="small-text-price">13204kr/år</div>
+              <div className="regular-text-price">{price}kr/mnd</div>
+              <div className="small-text-price">{priceYear}kr/år</div>
             </li>
             <li className="card">
               <h3>Topkasko</h3>
               <div className="small-text">Vår beste forsikring</div>
-              <div className="regular-text price">1133kr/mnd</div>
-              <div className="small-text-price">13780kr/år</div>
+              <div className="regular-text-price">{price}kr/mnd</div>
+              <div className="small-text-price">{priceYear}kr/år</div>
             </li>
           </ul>
         </div>

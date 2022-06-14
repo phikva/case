@@ -4,14 +4,28 @@
     padding: 15px 30px;
     border-radius: 50px;
     border: 1px solid black;
+    transition: ease-in 250ms;
+    &:hover {
+        cursor: pointer;
+    }
    
 }
 .btn.primary {
     background-color: black;
     color: white;
+    &:hover {
+        background-color: var(--background-color);
+        color: black;
+     
+    }
 }
 .btn.secondary {
-    background-color: white;
+    background-color: var(--background-color);
     color: black;
+    &:hover {
+        background-color: black;
+        color: var(--background-color);
+        
 }
 
+}
