@@ -12,7 +12,7 @@ const Form = () => {
 
   const onSubmit = async (values, actions) => {
     setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     setLoading(false);
     setSubmitted("submitted");
